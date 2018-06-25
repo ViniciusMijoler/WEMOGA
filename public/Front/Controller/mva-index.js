@@ -3,15 +3,23 @@ function User(){
 	this.senha = '';
 }
 
-app.controller('userControler', ['$scope', '$http', 'alertas', function($scope, $http, alertas){
+app.controller('userControler', ['$scope', '$rootScope','$http', 'alertas', function($scope, $rootScope, $http, alertas){
 	$scope.usuario = new User();
-	$scope.entrar = function(){
-		$http.post('/logar', $scope.usuario).then(function (response){
-			if (response.data) { 
-				window.location.href = '/index';
-			} else {
-				alertas.alertDanger("Usuario ou senha incorreto!");
-			}
+
+	$scope.init = function(){
+		getUser();
+	}
+
+	var getUser = function(){
+		$http.get('/usuario/getUser').then(function (response){
+			$rootScope.usuario = response.data;
+			$scope.usuario = response.data;
 		});
-	};
+	}
+
+	$scope.logout = function(){
+		$rootScope.usuario = undefined;
+		$scope.usuario = undefined;
+		window.location.href = "/usuario/logout";
+	}
 }]);

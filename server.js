@@ -26,12 +26,26 @@ app.use('/app', require('./routes/Views/routes.js'));
 app.use('/usuario', require('./routes/Controller/Usuarios.js'));
 
 app.get('/',function(req,res){
-	res.render('login.html');
+	if (!req.session.usuario)
+		res.render('login.html');
+	else
+		res.redirect('/index');
 });
-app.get('/login',function(req,res){   		
-	res.render('login.html');    
+app.get('/login',function(req,res){   	
+	if (!req.session.usuario)
+		res.render('login.html');
+	else
+		res.redirect('/index');
 });
 app.get('/cadastro-empresa',function(req,res){
+	if (req.session.usuario){
+		req.session.destroy(function(err){		
+			if (err) {			
+				console.error("ERRO - ", err);
+				return
+			}	
+		});
+	}
 	res.render('cadastro-empresa.html');    
 });
 app.get('/index',function(req,res){

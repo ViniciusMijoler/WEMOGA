@@ -6,15 +6,15 @@ const pool = require('../../db');
 router.post('/logar', function (req, res) {
 	pool.connect(function (err, client, done) {
 		if (err) {
-			console.error('Erro ao conectar no banco: \n', erro);
+			console.error('ERRO ao conectar no banco - ' + err);
 			return;
 		}
 
 		var sql = `
-					SELECT U.id_usuario, U.usuario, E.nome
+					SELECT U.id_usuario, E.id as id_empresa, U.usuario as user, E.nome
 					  FROM tb_usuario U 
-					  		INNER JOIN tb_empresa E ON (E.id_usuario = U.id_empresa)
-					 WHERE 	   usuario = '${req.body.usuario}'
+					  		INNER JOIN tb_empresa E ON (E.id_usuario = U.id_usuario)
+					 WHERE 	   usuario = '${req.body.user}'
 				     	   AND senha = md5('${req.body.senha}')
 				`;
 
@@ -22,20 +22,16 @@ router.post('/logar', function (req, res) {
 			done(); // libera a conexão
 			if (err) {
 				res.sendStatus(400);
-				console.error('Erro - ', erro);
+				console.error('Erro - ', err);
 				return;
 			}
 
 			var usuario = result.rows[0];
 
 			if (usuario != null) {
-				req.session = {
-					usuario: usuario.usuario,
-					nome: usuario.nome,
-					id_usuario: usuario.id_usuario
-				}
+				req.session.usuario = usuario;
 			}
-			res.json(usuario);
+			res.json(req.session.usuario);
 		});
 	});
 });
@@ -43,7 +39,7 @@ router.post('/logar', function (req, res) {
 router.get('/verificarUsuario/:usuario', function (req, res) {
 	pool.connect((err, client, done) => {
 		if (err){
-			console.error('Erro ao conectar no banco: \n', erro);
+			console.error('Erro ao conectar no banco: \n', err);
 			return;
 		}
 
@@ -57,7 +53,7 @@ router.get('/verificarUsuario/:usuario', function (req, res) {
 			done();
 			if (err){
 				res.sendStatus(404);
-				console.error('Erro - ', erro);
+				console.error('Erro - ', err);
 				return
 			}
 			
@@ -74,11 +70,10 @@ router.get('/verificarUsuario/:usuario', function (req, res) {
 	});
 });
 
-
 router.post('/cadastrarEmpresa', function (req, res) {
 	pool.connect((err, client, done) => {
 		if (err){
-			console.error('Erro ao conectar no banco: \n', erro);
+			console.error('Erro ao conectar no banco: \n', err);
 			return;
 		}
 
@@ -180,6 +175,20 @@ router.post('/cadastrarEmpresa', function (req, res) {
 			});
 		});
 	});
+});
+
+router.get('/getUser', function(req, res){
+	res.status(200).send(req.session.usuario);
+});
+// encerra sessao
+router.get('/logout', function(req,res){		
+	req.session.destroy(function(err){		
+		if (err) {			
+			console.error("ERRO - ", err);
+			return
+		}	
+	});
+	res.redirect('/login');	
 });
 
 module.exports = router;

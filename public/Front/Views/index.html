@@ -17,10 +17,15 @@
 	<link href="./front/css/mva-main.css" rel="stylesheet">
 	<!-- Angular -->
 	<script src="./vendor/angular/angular.min.js"></script>
-	<script src="./vendor/angular/ngStorage/"></script>
+	<script src="./vendor/angular/angular-route/angular-route.min.js"></script>
+	<script src="./Front/Core/base.js"></script>
+	<script src="./Front/Controller/mva-index.js"></script>
+	<script src="./Front/Services/alert.js"></script>
+	<script src="./Front/Filter/tableSearch.js"></script>
+	<base href="/index">
 </head>
 
-<body class="fixed-nav sticky-footer bg-dark" id="page-top" ng-app="CrudApp">
+<body class="fixed-nav sticky-footer bg-dark" id="page-top" ng-app="CrudApp" ng-controller="userControler" ng-init="init()">
 
 	<!-- Navigation-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
@@ -29,7 +34,7 @@
 		 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarResponsive" ng-controller="nomeUsuario">
+		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
 				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Início">
 					<a class="nav-link" href="/inicio">
@@ -119,7 +124,7 @@
 		<i class="fa fa-angle-up"></i>
 	</a>
 	<!-- Logout Modal-->
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" ng-controller="controlLogout">
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -141,10 +146,50 @@
 	<script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Core plugin JavaScript-->
 	<script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
-	<!-- Custom scripts for all pages-->
-	<script src="./js/sb-admin.min.js"></script>
-	<!-- Alert -->
-	<script src="./vendor/jquery/jquery.bootstrap-growl.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="./vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="./vendor/datatables/jquery.dataTables.js"></script>
+    <script src="./vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="./js/sb-admin.min.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="./js/sb-admin-datatables.min.js"></script>
+    <!-- Alert -->
+    <script src="./vendor/jquery/jquery.bootstrap-growl.min.js"></script>
+    <!-- Table bug -->
+    <script>
+      $('#dataTable').dataTable({
+        "bInfo":false,
+        "bLengthChange":false,
+        "bFilter":false,
+        "bPaginate":false,
+        "bSort": false,
+        "oLanguage": {
+          "sEmptyTable": "Nenhum registro encontrado",
+          "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+          "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+          "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+          "sInfoPostFix": "",
+          "sInfoThousands": ".",
+          "sLengthMenu": "_MENU_ Resultados por página",
+          "sLoadingRecords": "Carregando...",
+          "sProcessing": "Processando...",
+          "sZeroRecords": "Nenhum registro encontrado",
+          "sSearch": "Pesquisar",
+          "oPaginate": {
+              "sNext": "Próximo",
+              "sPrevious": "Anterior",
+              "sFirst": "Primeiro",
+              "sLast": "Último"
+          },
+          "oAria": {
+              "sSortAscending": ": Ordenar colunas de forma ascendente",
+              "sSortDescending": ": Ordenar colunas de forma descendente"
+          }
+        }
+      });
+    </script> 
 </body>
 
 </html>
