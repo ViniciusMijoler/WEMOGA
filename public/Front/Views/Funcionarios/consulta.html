@@ -1,0 +1,72 @@
+<h3>Funcionários</h3>
+<hr>
+<!-- Example DataTables Card-->
+<div class="row">
+    <div class="form-group col-md-12">
+      <a href="/funcionario/cadastro">
+        <button class="btn btn-primary">
+          <i class="fa fa-fw fa-plus"></i> Novo Cadastro
+        </button>
+      </a>
+    </div>
+</div>
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fa fa-table"></i> Projetos
+    <a class="fa fa-refresh float-right" href=""></a>
+  </div>
+  <div class="card-body">
+    <div class="form-group col-md-2 col-sm-12">
+      <input type="text" class="form-control form-control-sm" placeholder="Filtrar tabela" ng-model="filtro">
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr class="align-center">
+            <th ng-click="OrderByMe('id_projeto')" style="width: 10px">Id</th>
+            <th ng-click="OrderByMe('titulo')">Titulo</th>
+            <th ng-click="OrderByMe('ds_projeto')">Descrição</th>
+            <th ng-click="OrderByMe('s_privacidade')">Privacidade</th>
+            <th ng-click="OrderByMe('ds_area')">Área</th>
+            <th style="width: 20px">Detalhes</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr class="align-center">
+            <th ng-click="OrderByMe('id_projeto')">Id</th>
+            <th ng-click="OrderByMe('titulo')">Titulo</th>
+            <th ng-click="OrderByMe('ds_projeto')">Descrição</th>
+            <th ng-click="OrderByMe('s_privacidade')">Privacidade</th>
+                  <th ng-click="OrderByMe('ds_area')">Área</th>
+                  <th>Detalhes</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr ng-show="projetos.length <= 0">
+                  <td colspan="6" class="align-center">Nenhum dado encontrado</td>
+                </tr>
+                <tr ng-repeat="projeto in projetos = (listaProjetos | orderBy: ordem | tableSearch:filtro:['id_projeto','titulo','ds_projeto','s_privacidade','ds_area'])">
+                  <td class="align-center">{{projeto.id_projeto}}</td>
+                  <td>{{projeto.titulo}}</td>
+                  <td>{{projeto.ds_projeto}}</td>
+                  <td>{{projeto.s_privacidade}}</td>
+                  <td>{{projeto.ds_area}}</td>
+                  <td class="align-center">
+                    <span ng-click="editarProjeto($index)" class="fa fa-fw fa-edit"></span>
+                  </td>
+                </tr>                
+              </tbody>
+            </table>
+          </div>
+          <div class="form-group">
+            <div class="form-inline">
+              <div class="col-md-12">
+                <div class="col-md-4">
+                  Total: {{projetos.length}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Atualizado hoje às {{time}}</div>
+      </div>

@@ -20,6 +20,9 @@
 	<script src="./vendor/angular/angular-route/angular-route.min.js"></script>
 	<script src="./Front/Core/base.js"></script>
 	<script src="./Front/Controller/mva-index.js"></script>
+	<script src="./Front/Controller/Configuracao/Perfil/mva-perfil.js"></script>
+	<script src="./Front/Controller/Funcionarios/mva-cadastro.js"></script>
+	<script src="./Front/Controller/Funcionarios/mva-consulta.js"></script>
 	<script src="./Front/Services/alert.js"></script>
 	<script src="./Front/Filter/tableSearch.js"></script>
 	<base href="/index">
@@ -42,39 +45,39 @@
 						<span class="nav-link-text">Início</span>
 					</a>
 				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Projetos">
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Configurações">
+					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#showConfig" data-parent="#exampleAccordion">
+						<i class="fa fa-fw fa-gear"></i>
+						<span class="nav-link-text">Configurações</span>
+					</a>
+					<ul class="sidenav-second-level collapse" id="showConfig">
+						<li>
+							<a href="/configuracao/perfil">
+								<i class="fa fa-fw fa-edit"></i>
+								<span class="nav-link-text">Editar Perfil</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Funcionarios">
 					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#showProjeto" data-parent="#exampleAccordion">
 						<i class="fa fa-fw fa-clipboard"></i>
 						<span class="nav-link-text">Funcionários</span>
 					</a>
 					<ul class="sidenav-second-level collapse" id="showProjeto">
 						<li>
-							<a href="/funcionario/consultaFuncionario">
+							<a href="/funcionario/consulta">
 								<i class="fa fa-fw fa-table"></i>
 								<span class="nav-link-text">Consulta</span>
 							</a>
 						</li>
 						<li>
-							<a href="/funcionario/cadastroFuncionario">
+							<a href="/funcionario/cadastro">
 								<i class="fa fa-fw fa-edit"></i>
 								<span class="nav-link-text">Cadastro</span>
 							</a>
 						</li>
 
-					</ul>
-				</li>
-				<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Configuração">
-					<a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#showConfig" data-parent="#exampleAccordion">
-						<i class="fa fa-fw fa-gear"></i>
-						<span class="nav-link-text">Configuração</span>
-					</a>
-					<ul class="sidenav-second-level collapse" id="showConfig">
-						<li>
-							<a href="/usuario/editar">
-								<i class="fa fa-fw fa-edit"></i>
-								<span class="nav-link-text">Editar Perfil</span>
-							</a>
-						</li>
 					</ul>
 				</li>
 			</ul>
@@ -88,7 +91,7 @@
 			<ul class="navbar-nav ml-auto">
 				<!-- Pesquisar -->
 				<li class="nav-item">
-					<a class="nav-link" ng-init="">
+					<a class="nav-link">
 						<i class="fa fa-fw fa-user"></i>
 						<span> {{usuario.nome}} </span>
 					</a>
@@ -100,11 +103,9 @@
 					</a>
 				</li>
 			</ul>
-			</div>
+		</div>
 	</nav>
 	<!-- Nav end -->
-
-
 	<div class="content-wrapper">
 		<div class="container-fluid">
 			<div ng-view>Carregando...</div>
