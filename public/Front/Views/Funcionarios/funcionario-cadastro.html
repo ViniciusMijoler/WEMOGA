@@ -1,0 +1,70 @@
+<!-- Breadcrumbs-->
+<h3> {{titulo}} </h3> 
+<hr/>
+
+<form ng-init="preencheCamposProjeto()">
+  <!-- area de campos do form -->
+  <!-- Primeira linha -->
+  <div class="row row-buttons">
+    <div class="form-group-md col-md-12">
+        <button class="btn btn-primary" ng-click="">
+          <i class="fa fa-fw fa-plus"></i>Novo
+        </button>
+        <button class="btn btn-warning-white" ng-click="">
+          <i class="fa fa-fw fa-eraser"></i>Limpar
+        </button>
+        <button class="btn btn-danger" ng-click="">
+          <i class="fa fa-fw fa-trash-o"></i>Excluir
+        </button>
+        <button class="btn btn-dark" ng-click="">
+          <i class="fa fa-fw fa-search"></i>Consultar
+        </button>
+        <button class="btn btn-success float-md-right" ng-click="">
+          <i class="fa fa-fw fa-save"></i>Gravar
+        </button>
+      </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-md-7">
+      <label for="titulo">Título</label>
+      <input type="text" class="form-control" name="titulo" placeholder="Insira o título" ng-model="projeto.titulo" maxlength="60" ng-disabled="ng_editavel">
+    </div>
+
+    <div class="form-group col-md-3">
+      <label for="prazo">Prazo</label>
+      <input type="date" class="form-control" id="datepicker" name="prazo" placeholder="Insira o prazo" ng-model="projeto.prazo" ng-disabled="ng_editavel">
+    </div>     
+  </div>
+
+  <!-- Segunda linha -->
+  <div class="row">
+    <div class="form-group col-md-5">
+      <label for="tema">Tema</label>
+      <input type="text" class="form-control" name="tema" placeholder="Insira o tema" ng-model="projeto.tema" maxlength="60" ng-disabled="ng_editavel">
+    </div>
+
+    <div class="form-group col-md-5" ng-init="consultaArea()">
+      <label for="area">Áreas relacionadas</label>
+      <select class="form-control" ng-model="projeto.id_area" ng-disabled="ng_editavel">
+        <option ng-repeat="area in listaAreas" ng-value="{{area.id_area}}"> {{area.ds_area}} </option>
+      </select> 
+    </div>
+    
+    <div class="form-group col-md-2">
+      <label for="area">Privacidade</label>
+      <select class="form-control" ng-model="projeto.privacidade" ng-disabled="ng_editavel">
+        <option ng-value="false">Público</option>
+        <option ng-value="true">Privado</option>
+      </select> 
+    </div>
+  </div>
+
+  <!-- Ultima linha -->    
+  <div class="row">    
+    <div class="form-group col-md-12">
+      <label for="descricao">Descrição</label>
+      <textarea type="text-area" class="form-control form-area" maxlength="200" ng-model="projeto.ds_projeto" placeholder="Descreva todo as informações necessárias para a realização do projeto" ng-disabled="ng_editavel"></textarea>
+    </div>
+  </div>
+</form>

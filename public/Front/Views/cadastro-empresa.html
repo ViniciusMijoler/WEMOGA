@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="cadastroApp" ng-strict-di="true">
+	<head>
+		<meta charset="utf-8"/>
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<title> Projects </title>
+
+		<!-- Bootstrap core CSS -->
+	    <link href="./vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+	    <!-- Custom styles for this template -->
+		<link href="./assets/css/main.css" rel="stylesheet">
+		<link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href="./Front/css/mva-cadastro.css" rel="stylesheet">		
+
+		<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+		
+		<!-- Angular -->
+		<script src="./vendor/angular/angular.min.js"></script>
+		<script src="./vendor/angular/angular-viacep/angular-viacep.min.js"></script>
+		<script src="./vendor/angular/ngMask/ngMask.min.js"></script>
+		<script src="./Front/Controller/mva-cadastro.js"> </script>
+		<script src="./Front/Services/alert.js"></script>
+	</head>
+	
+	<body ng-controller="cadastroController">
+        <div class="container div-btn-voltar">
+              <a href="/login"> <button type="button" class="btn btn-outline-dark">Voltar</button> </a>
+		</div>
+		<div class="container container-center" >
+			<div class="container">				
+				<form name="formCadastro" via-cep-form>
+					<h1>Cadastre-se como empresa</h1>
+					<div class="row">
+						<div class="col-md-3">
+							<label class="form-control-label"> Nome de usuário<span class="color-red">*</span>: </label>
+							<input type="text" class="form-control" ng-model="empresa.usuario" maxlength="30" required/>
+						</div>		
+						<div class="col-md-2">
+							<label class="form-control-label"> Senha<span class="color-red">*</span>: </label>
+							<input type="password" class="form-control" ng-model="empresa.senha" maxlength="20" required/>
+						</div>
+						<div class="col-md-4">
+							<label class="form-control-label"> Nome da Empresa<span class="color-red">*</span>: </label>
+							<input type="text" class="form-control" ng-model="empresa.nome" maxlength="200" required/>
+						</div>
+						<div class="col-md-3">
+							<label class="form-control-label"> Telefone: </label>
+							<input type="text" class="form-control" ng-model="empresa.telefone" mask="(99) 9?9999-9999" clean="true"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2">
+							<label class="form-control-label"> CEP: </label>
+							<input type="text" class="form-control" ng-model="empresa.cep" mask="99.999-999" clean="true" via-cep="cep"/>
+						</div>
+						<div class="col-md-4">
+							<label class="form-control-label"> Rua: </label>
+							<input type="text" class="form-control" ng-model="empresa.logradouro" maxlength="60" via-cep="logradouro"/>
+						</div>
+						<div class="col-md-2">
+							<label class="form-control-label"> Cidade: </label>
+							<input type="text" class="form-control" ng-model="empresa.cidade" maxlength="60" via-cep="localidade"/>
+						</div>
+						<div class="col-md-3">
+							<label class="form-control-label"> Bairro: </label>
+							<input type="text" class="form-control" ng-model="empresa.bairro" maxlength="60" via-cep="bairro"/>
+						</div>
+						<div class="col-md-1">
+							<label class="form-control-label"> UF: </label>
+							<input type="text" class="form-control" ng-model="empresa.uf" maxlength="2" via-cep="uf"/>
+						</div>
+					</div>	
+					<div class="row">
+						<div class="col-md-10">
+							<label class="form-control-label"> Complemento: </label>
+							<input type="text" class="form-control" ng-model="empresa.complemento"/>
+						</div>
+						<div class="col-md-2">
+							<label class="form-control-label"> Numero: </label>
+							<input type="number" class="form-control" ng-model="empresa.numero"/>
+						</div>
+					</div>					
+					<div class="row btn-cadastrar">
+						<div class="col-md-2"> 
+							<button type="button" class="btn btn-success" ng-click="save()" ng-disabled="formCadastro.$invalid">Cadastrar</button>
+						</div>
+					</div>
+				</form>					
+			</div>
+		</div>
+		
+		<!-- JavaScript -->
+	    <script src="./vendor/jquery/jquery.min.js"></script>
+		<script src="./vendor/modernizr/modernizr.custom.js"></script>
+	    <script src="./vendor/popper/popper.min.js"></script>
+	    <script src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+	    
+		<!-- Alert -->
+	    <script src="./vendor/jquery/jquery.bootstrap-growl.min.js"></script>		
+	</body>
+</html>
