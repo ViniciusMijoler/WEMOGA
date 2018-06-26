@@ -10,18 +10,9 @@ router.get('/inicio',function(req,res){
     }
 });
 
-router.get('/funcionario/cadastro',function(req,res){
+router.get('/funcionario/',function(req,res){
 	if (req.session.usuario){
-		res.render('Funcionarios/cadastro.html');
-    }
-	else {
-		res.redirect('/login');
-    }
-});
-
-router.get('/funcionario/consulta',function(req,res){
-	if (req.session.usuario){
-		res.render('Funcionarios/consulta.html');
+		res.render('Funcionarios/funcionario.html');
     }
 	else {
 		res.redirect('/login');

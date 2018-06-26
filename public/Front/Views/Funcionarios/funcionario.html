@@ -1,0 +1,100 @@
+<!-- Breadcrumbs-->
+<h3>Funcionários</h3> 
+<hr/>
+
+<form ng-init="">
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label for="nome">Nome</label>
+      <input type="text" class="form-control" name="nome" placeholder="Insira o nome" ng-model="modelCadFuncionario.nome" maxlength="200">
+    </div>
+
+    <div class="form-group col-md-3">
+      <label for="area">Cargo</label>
+      <select class="form-control" ng-model="modelCadFuncionario.id_cargo">
+        <option ng-repeat="cargo in listaCargo" ng-value="{{cargo.id_cargo}}"> {{cargo.nome_cargo}} </option>
+      </select> 
+    </div>
+
+    <div class="form-group col-md-3">
+      <label for="salario">Salario</label>
+      <input type="number" class="form-control" name="salario" ng-model="modelCadFuncionario.salario">
+    </div>
+  </div>
+  <div class="row row-buttons">
+    <div class="form-group-md col-md-12">
+        <button class="btn btn-primary" ng-click="">
+          <i class="fa fa-fw fa-plus"></i>Novo
+        </button>
+        <button class="btn btn-warning-white" ng-click="">
+          <i class="fa fa-fw fa-eraser"></i>Limpar
+        </button>
+        <button class="btn btn-danger" ng-click="">
+          <i class="fa fa-fw fa-trash-o"></i>Excluir
+        </button>
+        <button class="btn btn-dark" ng-click="">
+          <i class="fa fa-fw fa-search"></i>Consultar
+        </button>
+        <button class="btn btn-success float-md-right" ng-click="">
+          <i class="fa fa-fw fa-save"></i>Salvar
+        </button>
+      </div>
+  </div>
+</form>
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fa fa-table"></i> Funcionarios
+    <a class="fa fa-refresh float-right" href=""></a>
+  </div>
+  <div class="card-body">
+    <div class="form-group col-md-2 col-sm-12">
+      <input type="text" class="form-control form-control-sm" placeholder="Filtrar tabela" ng-model="filtro">
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr class="align-center">
+            <th ng-click="OrderByMe('id_func')" style="width: 10px">Id</th>
+            <th ng-click="OrderByMe('titulo')">Titulo</th>
+            <th ng-click="OrderByMe('ds_projeto')">Descrição</th>
+            <th ng-click="OrderByMe('ds_area')">Área</th>
+            <th style="width: 20px">Detalhes</th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr class="align-center">
+            <th ng-click="OrderByMe('id_func')">Id</th>
+            <th ng-click="OrderByMe('titulo')">Titulo</th>
+            <th ng-click="OrderByMe('ds_projeto')">Descrição</th>
+            <th ng-click="OrderByMe('ds_area')">Área</th>
+            <th>Detalhes</th>
+          </tr>
+        </tfoot>
+        <tbody>
+          <tr ng-show="funcionarios.length <= 0">
+            <td colspan="6" class="align-center">Nenhum dado encontrado</td>
+          </tr>
+          <tr ng-repeat="funcionario in funcionarios = (lstFuncionarios | orderBy: ordem | tableSearch:filtro:['id_func','titulo','ds_projeto','ds_area'])">
+            <td class="align-center">{{funcionario.id_projeto}}</td>
+            <td>{{funcionario.titulo}}</td>
+            <td>{{funcionario.ds_projeto}}</td>
+            <td>{{funcionario.ds_area}}</td>
+            <td class="align-center">
+              <span ng-click="editarProjeto($index)" class="fa fa-fw fa-edit"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-group">
+      <div class="form-inline">
+        <div class="col-md-12">
+          <div class="col-md-4">
+            Total: {{funcionarios.length}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer small text-muted">Atualizado hoje às {{time}}</div>
+</div>

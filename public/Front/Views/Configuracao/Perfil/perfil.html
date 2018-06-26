@@ -1,1 +1,92 @@
-<h1>Perfil</h1>
+<!-- Breadcrumbs-->
+<div class="row row-buttons"></div>
+    <h3>Perfil
+
+    <button class="btn btn-danger  float-md-right" data-toggle="modal" data-target="#disableModal">
+        Desativar conta
+    </button></h3>
+</div>
+<hr/>
+
+<form ng-init="init()" via-cep-form>
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-control-label"> Nome de usuário
+                <span class="color-red">*</span>: </label>
+            <input type="text" class="form-control" ng-model="empresa.user" maxlength="30" disabled/>
+        </div>
+        <div class="col-md-2">
+            <label class="form-control-label"> Senha
+                <span class="color-red">*</span>: </label>
+            <input type="password" class="form-control" ng-model="empresa.senha" maxlength="20" required/>
+        </div>
+        <div class="col-md-4">
+            <label class="form-control-label"> Nome da Empresa
+                <span class="color-red">*</span>: </label>
+            <input type="text" class="form-control" ng-model="empresa.nome" maxlength="200" required/>
+        </div>
+        <div class="col-md-3">
+            <label class="form-control-label"> Telefone: </label>
+            <input type="text" class="form-control" ng-model="empresa.telefone" mask="(99) 9?9999-9999" clean="true" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label class="form-control-label"> CEP: </label>
+            <input type="text" class="form-control" ng-model="empresa.cep" mask="99.999-999" clean="true" via-cep="cep" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-control-label"> Rua: </label>
+            <input type="text" class="form-control" ng-model="empresa.logradouro" maxlength="60" via-cep="logradouro" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-control-label"> Cidade: </label>
+            <input type="text" class="form-control" ng-model="empresa.cidade" maxlength="60" via-cep="localidade" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-control-label"> Bairro: </label>
+            <input type="text" class="form-control" ng-model="empresa.bairro" maxlength="60" via-cep="bairro" />
+        </div>
+        <div class="col-md-1">
+            <label class="form-control-label"> UF: </label>
+            <input type="text" class="form-control" ng-model="empresa.uf" maxlength="2" via-cep="uf" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <label class="form-control-label"> Complemento: </label>
+            <input type="text" class="form-control" ng-model="empresa.complemento" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-control-label"> Numero: </label>
+            <input type="number" class="form-control" ng-model="empresa.numero" />
+        </div>
+    </div>
+    
+    <div class="row row-buttons">
+        <div class="form-group-md col-md-12">
+            <button class="btn btn-success float-md-right" ng-click="save()">
+                <i class="fa fa-fw fa-save"></i> Gravar
+            </button>
+        </div>
+    </div>
+</form>
+
+<!-- disable Modal-->
+<div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="disableModalLabel">Pronto para sair?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Selecione "Desativar" se você deseja realmente deseja desativar seu perfil.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" data-dismiss="modal" ng-click="desativar()">Desativar</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -18,11 +18,12 @@
 	<!-- Angular -->
 	<script src="./vendor/angular/angular.min.js"></script>
 	<script src="./vendor/angular/angular-route/angular-route.min.js"></script>
+	<script src="./vendor/angular/angular-viacep/angular-viacep.min.js"></script>
+	<script src="./vendor/angular/ngMask/ngMask.min.js"></script>
 	<script src="./Front/Core/base.js"></script>
 	<script src="./Front/Controller/mva-index.js"></script>
 	<script src="./Front/Controller/Configuracao/Perfil/mva-perfil.js"></script>
-	<script src="./Front/Controller/Funcionarios/mva-cadastro.js"></script>
-	<script src="./Front/Controller/Funcionarios/mva-consulta.js"></script>
+	<script src="./Front/Controller/Funcionarios/mva-funcionario.js"></script>
 	<script src="./Front/Services/alert.js"></script>
 	<script src="./Front/Filter/tableSearch.js"></script>
 	<base href="/index">
@@ -66,18 +67,11 @@
 					</a>
 					<ul class="sidenav-second-level collapse" id="showProjeto">
 						<li>
-							<a href="/funcionario/consulta">
+							<a href="/funcionario/detalhes">
 								<i class="fa fa-fw fa-table"></i>
-								<span class="nav-link-text">Consulta</span>
+								<span class="nav-link-text">Detalhes</span>
 							</a>
 						</li>
-						<li>
-							<a href="/funcionario/cadastro">
-								<i class="fa fa-fw fa-edit"></i>
-								<span class="nav-link-text">Cadastro</span>
-							</a>
-						</li>
-
 					</ul>
 				</li>
 			</ul>

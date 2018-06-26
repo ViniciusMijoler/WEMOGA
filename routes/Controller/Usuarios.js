@@ -6,6 +6,8 @@ const pool = require('../../db');
 router.post('/logar', function (req, res) {
 	pool.connect(function (err, client, done) {
 		if (err) {
+			done();
+			res.status(404).send(err);
 			console.error('ERRO ao conectar no banco - ' + err);
 			return;
 		}
@@ -14,14 +16,15 @@ router.post('/logar', function (req, res) {
 					SELECT U.id_usuario, E.id as id_empresa, U.usuario as user, E.nome
 					  FROM tb_usuario U 
 					  		INNER JOIN tb_empresa E ON (E.id_usuario = U.id_usuario)
-					 WHERE 	   usuario = '${req.body.user}'
-				     	   AND senha = md5('${req.body.senha}')
+					 WHERE 	   U.usuario = '${req.body.user}'
+						   AND U.senha = md5('${req.body.senha}')
+						   AND U.status = 1
 				`;
 
 		client.query(sql, function (err, result) {
 			done(); // libera a conexão
 			if (err) {
-				res.sendStatus(400);
+				res.status(404).send(err);
 				console.error('Erro - ', err);
 				return;
 			}
@@ -39,6 +42,8 @@ router.post('/logar', function (req, res) {
 router.get('/verificarUsuario/:usuario', function (req, res) {
 	pool.connect((err, client, done) => {
 		if (err){
+			done();
+			res.status(404).send(err);
 			console.error('Erro ao conectar no banco: \n', err);
 			return;
 		}
@@ -52,7 +57,7 @@ router.get('/verificarUsuario/:usuario', function (req, res) {
 		client.query(sql, (err, result) => {
 			done();
 			if (err){
-				res.sendStatus(404);
+				res.status(404).send(err);
 				console.error('Erro - ', err);
 				return
 			}
@@ -70,9 +75,60 @@ router.get('/verificarUsuario/:usuario', function (req, res) {
 	});
 });
 
+router.get('/getEmpresa/:id_usuario', function (req, res) {
+	pool.connect((err, client, done) => {
+		if (err){
+			done();
+			res.status(404).send(err);
+			console.error('Erro ao conectar no banco: \n', err);
+			return;
+		}
+
+		var sql = `
+					SELECT U.id_usuario,
+						   U.usuario as user,
+						   E.id as id_empresa, 
+						   E.nome,
+						   E.cep,
+						   E.logradouro,
+						   E.numero,
+						   E.complemento ,
+						   E.bairro,
+						   E.cidade,
+						   E.uf,
+						   F.id_tel,
+						   F.telefone
+					  FROM tb_usuario U 
+							INNER JOIN tb_empresa E ON (E.id_usuario = U.id_usuario AND E.status = 1)
+							LEFT JOIN tb_telefone F ON (F.id_empresa = E.id AND F.status = 1)
+					 WHERE U.id_usuario = ${req.params.id_usuario} AND U.status = 1
+				`;
+
+		client.query(sql, (err, result) => {
+			done();
+			if (err){
+				res.status(404).send(err);
+				console.error('Erro - ', err);
+				return
+			}
+
+			var count = result.rowCount;
+
+			if (count > 0){
+				res.json(result.rows[0]);
+			} else{
+				console.error('Erro - dados usuario não encontrado');
+				res.status(404).send('Erro - dados usuario não encontrado');
+			}
+		});
+	});
+});
+
 router.post('/cadastrarEmpresa', function (req, res) {
 	pool.connect((err, client, done) => {
 		if (err){
+			done();
+			res.status(404).send(err);
 			console.error('Erro ao conectar no banco: \n', err);
 			return;
 		}
@@ -93,7 +149,7 @@ router.post('/cadastrarEmpresa', function (req, res) {
 
 		client.query('BEGIN', (err) => {
 			if (shouldAbort(err)){
-				res.status(404).send('Erro ao cadastrar').end();
+				res.status(404).send('Erro ao cadastrar');
 				return
 			}
 
@@ -105,7 +161,7 @@ router.post('/cadastrarEmpresa', function (req, res) {
 
 			client.query(sql, (err, result) => {
 				if (shouldAbort(err)){
-					res.status(404).send('Erro ao cadastrar').end();
+					res.status(404).send('Erro ao cadastrar');
 					return
 				} 
 
@@ -177,13 +233,101 @@ router.post('/cadastrarEmpresa', function (req, res) {
 	});
 });
 
+router.put('/atualizarEmpresa', function (req, res) {
+	pool.connect((err, client, done) => {
+		if (err){
+			done();
+			res.sendStatus(400);
+			console.error('Erro ao conectar no banco: \n', err);
+			return;
+		}
+
+		var sql = `
+					UPDATE tb_usuario
+						SET senha = md5('${req.body.senha}')
+						WHERE id_usuario = ${req.body.id_usuario};
+
+					UPDATE tb_empresa
+						SET nome = '${req.body.nome}',
+							cep = '${req.body.cep}',
+							logradouro = '${req.body.logradouro}',
+							numero = ${req.body.numero},
+							complemento = '${req.body.complemento}',
+							bairro = '${req.body.bairro}',
+							cidade = '${req.body.cidade}',
+							uf = '${req.body.uf}'
+						WHERE 	   id = ${req.body.id_empresa}
+							AND id_usuario = ${req.body.id_usuario};
+
+				`;
+
+		if (req.body.id_tel != null){
+			sql += `
+					UPDATE tb_telefone
+						SET telefone = '${req.body.telefone}'
+						WHERE     id_tel = ${req.body.id_tel}
+							AND id_empresa = ${req.body.id_empresa}
+					RETURNING id_tel;
+				`;
+		}
+		else {
+			sql += `
+					INSERT INTO tb_telefone (id_empresa, telefone)
+					VALUES (${req.body.id_empresa}, '${req.body.telefone}')
+					RETURNING id_tel;
+				`;
+
+		}
+
+		client.query(sql, (err, result) => {
+			done();
+			if (err){
+				res.status(404).send(err);
+				console.error('Erro - ', err);
+				return;
+			} 
+
+			res.status(200).send(result[2].rows[0].id_tel.toString());
+		});
+	});
+});
+
+router.delete('/removeEmpresa/:id_usuario', function (req, res) {
+	pool.connect((err, client, done) => {
+		if (err){
+			done();
+			res.sendStatus(400);
+			console.error('Erro ao conectar no banco: \n', err);
+			return;
+		}
+
+		var sql = `
+					UPDATE tb_usuario
+					   SET status = 0
+					 WHERE id_usuario = ${req.params.id_usuario};
+				`;
+
+		client.query(sql, (err, result) => {
+			done();
+			if (err){
+				res.status(404).send(err);
+				console.error('Erro - ', err);
+				return;
+			}
+
+			res.status(200).send(true);
+		});
+	});
+});
+
 router.get('/getUser', function(req, res){
 	res.status(200).send(req.session.usuario);
 });
 // encerra sessao
-router.get('/logout', function(req,res){		
+router.get('/logout', function(req, res){		
 	req.session.destroy(function(err){		
-		if (err) {			
+		if (err) {
+			res.status(404).send(err);
 			console.error("ERRO - ", err);
 			return
 		}	

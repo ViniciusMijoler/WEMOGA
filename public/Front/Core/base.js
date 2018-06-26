@@ -1,4 +1,4 @@
-var app = angular.module('CrudApp', ['ngRoute']);
+var app = angular.module('CrudApp', ['ngRoute', 'ngMask', 'angular.viacep']);
 
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider){
     $locationProvider.html5Mode(true);
@@ -11,13 +11,9 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
 		templateUrl: '/app/configuracao/perfil',
 		controller: 'perfilController'
 	})
-	.when("/funcionario/cadastro", {
-		templateUrl: '/app/funcionario/cadastro',
-		controller: 'cadFuncionarioController'
-	})
-	.when("/funcionario/consulta", {
-		templateUrl: '/app/funcionario/consulta',
-		controller: 'consulFuncionarioController'
+	.when("/funcionario/detalhes", {
+		templateUrl: '/app/funcionario/',
+		controller: 'funcionarioController'
 	})
 	.otherwise({redirectTo: '/index'});
 }]);

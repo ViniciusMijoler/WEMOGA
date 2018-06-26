@@ -45,6 +45,9 @@ CREATE TABLE tb_cargo(
 	CONSTRAINT pk_tb_cargo PRIMARY KEY (id_cargo)
 );
 
+INSERT INTO tb_cargo (nome_cargo)
+VALUES ('Programador'),('Designer'),('Administração');
+
 CREATE TABLE tb_funcionario(
 	id_func		SERIAL,
 	id_empresa	INTEGER,

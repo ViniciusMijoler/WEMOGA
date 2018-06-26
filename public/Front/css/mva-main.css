@@ -34,9 +34,14 @@
 }
 
 .row-buttons {
-	margin-bottom: 12px	;
+	margin-top: 12px;
+	margin-bottom: 12px;
 }
 
 .align-center {
 	text-align: center !important;
+}
+
+.color-red {
+	color: red !important;
 }
