@@ -24,6 +24,7 @@ app.use('/',express.static(path.join(__dirname, '/public')));
 
 app.use('/app', require('./routes/Views/routes.js'));
 app.use('/usuario', require('./routes/Controller/Usuarios.js'));
+app.use('/funcionario', require('./routes/Controller/Funcionarios.js'));
 
 app.get('/',function(req,res){
 	if (!req.session.usuario)

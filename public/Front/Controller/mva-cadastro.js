@@ -1,20 +1,20 @@
 var app = angular.module('cadastroApp', ['ngMask', 'angular.viacep']);
 
-function Empresa(){
-	this.usuario = '';
-    this.senha = '';
-    this.nome = '';
-    this.telefone = '';
-    this.cep = '';
-    this.logradouro = '';
-    this.cidade = '';
-    this.bairro = '';
-    this.uf = '';
-    this.complemento = '';
-    this.numero = null;
-}
-
 app.controller('cadastroController', ['$scope', '$http', 'alertas', 'viaCep', function($scope, $http, alertas, viaCep){
+    function Empresa(){
+        this.usuario = '';
+        this.senha = '';
+        this.nome = '';
+        this.telefone = '';
+        this.cep = '';
+        this.logradouro = '';
+        this.cidade = '';
+        this.bairro = '';
+        this.uf = '';
+        this.complemento = '';
+        this.numero = null;
+    }
+    
     $scope.empresa = new Empresa();
     
 	$scope.save = function(){
@@ -25,7 +25,7 @@ app.controller('cadastroController', ['$scope', '$http', 'alertas', 'viaCep', fu
                 });
             }
             else {
-                alertas.alertDanger('Usuario já cadastro.')
+                alertas.alertWarning('Usuario já cadastro.')
             }
 		});
 	};

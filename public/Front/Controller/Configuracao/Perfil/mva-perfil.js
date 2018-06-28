@@ -24,19 +24,24 @@ app.controller('perfilController', ['$scope', '$rootScope','$http', '$timeout', 
                 }, 1500 );
             }
             else {
-                alertas.alertWarning('Erro ao desativar perfil.');
+                alertas.alertDanger('Erro ao desativar perfil.');
             }
         })
     }
 
     $scope.save = function (){
+        if ($scope.empresa.nome.length == 0){
+            alertas.alertWarning('Nome da empresa obrigatório.');
+            return;
+        }
+
         $http.put('/usuario/atualizarEmpresa', $scope.empresa).then(function (response){
             if (response.data){
                 $scope.empresa.id_tel = parseInt(response.data);
                 alertas.alertSucess('Perfil salvo.');
             }
             else {
-                alertas.alertWarning('Erro ao salvar o perfil.');
+                alertas.alertDanger('Erro ao salvar o perfil.');
             }
         })
     }

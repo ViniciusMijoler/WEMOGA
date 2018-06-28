@@ -45,3 +45,24 @@
 .color-red {
 	color: red !important;
 }
+
+.table thead th {
+  border-bottom: 1px solid #bfbfbf;
+}
+
+.table-bordered td, .table-bordered th {  
+  border: 1px solid #bfbfbf;
+}
+
+.btn-no-border-transparente {
+  background-color: transparent;
+  border: 0px;
+}
+
+.btn-no-border-transparente:active {
+  color: #007bff;
+}
+
+.btn-no-border-transparente:hover {
+  color: #007bff;
+}

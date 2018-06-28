@@ -1,9 +1,9 @@
-function User(){
-	this.user = '';
-	this.senha = '';
-}
-
 app.controller('userControler', ['$scope', '$rootScope','$http', 'alertas', function($scope, $rootScope, $http, alertas){
+	function User(){
+		this.user = '';
+		this.senha = '';
+	}
+	
 	$scope.usuario = new User();
 
 	$scope.init = function(){

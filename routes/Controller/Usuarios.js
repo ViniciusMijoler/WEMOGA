@@ -64,8 +64,6 @@ router.get('/verificarUsuario/:usuario', function (req, res) {
 			
 			var count = result.rows[0].count;
 
-			console.log(count);
-
 			if (count > 0){
 				res.status(200).send(false).end();
 			}else{
@@ -242,24 +240,30 @@ router.put('/atualizarEmpresa', function (req, res) {
 			return;
 		}
 
-		var sql = `
+		var sql = '';
+
+		if (req.body.senha != '' && req.body.senha != null && typeof req.body.senha != 'undefined'){
+			sql = `
 					UPDATE tb_usuario
-						SET senha = md5('${req.body.senha}')
-						WHERE id_usuario = ${req.body.id_usuario};
-
-					UPDATE tb_empresa
-						SET nome = '${req.body.nome}',
-							cep = '${req.body.cep}',
-							logradouro = '${req.body.logradouro}',
-							numero = ${req.body.numero},
-							complemento = '${req.body.complemento}',
-							bairro = '${req.body.bairro}',
-							cidade = '${req.body.cidade}',
-							uf = '${req.body.uf}'
-						WHERE 	   id = ${req.body.id_empresa}
-							AND id_usuario = ${req.body.id_usuario};
-
+					   SET senha = md5('${req.body.senha}')
+					 WHERE id_usuario = ${req.body.id_usuario};
 				`;
+		}
+
+		sql += `
+				UPDATE tb_empresa
+					SET nome = '${req.body.nome}',
+						cep = '${req.body.cep}',
+						logradouro = '${req.body.logradouro}',
+						numero = ${req.body.numero},
+						complemento = '${req.body.complemento}',
+						bairro = '${req.body.bairro}',
+						cidade = '${req.body.cidade}',
+						uf = '${req.body.uf}'
+					WHERE 	   id = ${req.body.id_empresa}
+						AND id_usuario = ${req.body.id_usuario};
+
+			`;
 
 		if (req.body.id_tel != null){
 			sql += `
@@ -287,12 +291,12 @@ router.put('/atualizarEmpresa', function (req, res) {
 				return;
 			} 
 
-			res.status(200).send(result[2].rows[0].id_tel.toString());
+			res.json(result[2].rows[0].id_tel);
 		});
 	});
 });
 
-router.delete('/removeEmpresa/:id_usuario', function (req, res) {
+router.put('/removeEmpresa/:id_usuario', function (req, res) {
 	pool.connect((err, client, done) => {
 		if (err){
 			done();

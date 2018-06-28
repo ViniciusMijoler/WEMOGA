@@ -11,14 +11,13 @@
 <form ng-init="init()" via-cep-form>
     <div class="row">
         <div class="col-md-3">
-            <label class="form-control-label"> Nome de usuário
-                <span class="color-red">*</span>: </label>
+            <label class="form-control-label"> Nome de usuário: </label>
             <input type="text" class="form-control" ng-model="empresa.user" maxlength="30" disabled/>
         </div>
         <div class="col-md-2">
             <label class="form-control-label"> Senha
                 <span class="color-red">*</span>: </label>
-            <input type="password" class="form-control" ng-model="empresa.senha" maxlength="20" required/>
+            <input type="password" class="form-control" ng-model="empresa.senha" placeholder="Informe nova senha" maxlength="20" required/>
         </div>
         <div class="col-md-4">
             <label class="form-control-label"> Nome da Empresa
@@ -77,7 +76,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="disableModalLabel">Pronto para sair?</h5>
+                <h5 class="modal-title" id="disableModalLabel">Pronto para desativar o perfil?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
