@@ -13,6 +13,7 @@ app.controller('funcionarioController', ['$scope', '$rootScope','$http', 'alerta
 
     $scope.init = function(){
         getCargos();
+        getFuncionairio('');
     };
 
     var getCargos = function(){
@@ -116,5 +117,12 @@ app.controller('funcionarioController', ['$scope', '$rootScope','$http', 'alerta
 			$scope.ordem = '-'+order;
 		else
 			$scope.ordem = order;
-	}
+    }
+    
+    $scope.notSubmit = function(event){
+        if (event.keyCode == 13){
+            event.returnValue=false;
+            event.cancel = true;
+        }
+    }
 }]);

@@ -18,15 +18,30 @@ app.controller('cadastroController', ['$scope', '$http', 'alertas', 'viaCep', fu
     $scope.empresa = new Empresa();
     
 	$scope.save = function(){
-		$http.get('/usuario/verificarUsuario/'+$scope.empresa.usuario).then(function (response){
+        $http.get('/usuario/verificarUsuario/'+$scope.empresa.usuario)
+        .then(function (response){
 			if (response.data) {
-                $http.post('/usuario/cadastrarEmpresa', $scope.empresa).then(function (response){
+                $http.post('/usuario/cadastrarEmpresa', $scope.empresa)
+                .then(function (response){
                     alertas.alertSucess(response.data)
-                });
+                })
+                .catch(function (err){
+                    console.log(err);
+                });;
             }
             else {
                 alertas.alertWarning('Usuario já cadastro.')
             }
-		});
-	};
+		})
+		.catch(function (err){
+			console.log(err);
+		});;
+    };
+    
+    $scope.notSubmit = function(event){
+        if (event.keyCode == 13){
+            event.returnValue=false;
+            event.cancel = true;
+        }
+    }
 }]);

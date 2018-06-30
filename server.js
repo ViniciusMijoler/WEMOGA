@@ -58,4 +58,5 @@ app.get('/index',function(req,res){
 
 app.listen(webconfig.PORT, function(){
 	console.log(`Server listennin on ${webconfig.URL}${webconfig.PORT}`);
+	console.log(`Database on ${webconfig.DATABASE_URL}`);
 })

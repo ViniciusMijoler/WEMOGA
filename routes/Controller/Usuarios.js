@@ -185,11 +185,11 @@ router.post('/cadastrarEmpresa', function (req, res) {
 					`;
 				client.query(sql, (err, result) => {
 					if (shouldAbort(err)){
-						res.status(404).send('Erro ao cadastrar').end();
+						res.status(404).send('Erro ao cadastrar');
 						return
 					} 
 					
-					if (req.body.telefone){
+					if (req.body.telefone && req.body.telefone != null && req.body.telefone.trim() != ''){
 						sql = `
 								INSERT INTO tb_telefone (id_empresa, telefone)
 								VALUES (${result.rows[0].id}, '${req.body.telefone}');
@@ -197,19 +197,19 @@ router.post('/cadastrarEmpresa', function (req, res) {
 	
 						client.query(sql, (err, result) => {
 							if (shouldAbort(err)){
-								res.status(404).send('Erro ao cadastrar').end();
+								res.status(404).send('Erro ao cadastrar');
 								return
 							} 
 	
 							client.query('COMMIT', (err) => {
 								done()
 								if (err) {
-									res.status(404).send('Erro ao cadastrar.').end();
+									res.status(404).send('Erro ao cadastrar.');
 									console.error('Error committing transaction', err.stack)
 									return
 								}
 	
-								res.status(200).send('Cadastrado com sucesso').end();
+								res.status(200).send('Cadastrado com sucesso');
 							});
 						});
 					}
@@ -217,12 +217,12 @@ router.post('/cadastrarEmpresa', function (req, res) {
 						client.query('COMMIT', (err) => {
 							done()
 							if (err) {
-								res.status(404).send('Erro ao cadastrar.').end();
+								res.status(404).send('Erro ao cadastrar.');
 								console.error('Error committing transaction', err.stack)
 								return
 							}
 
-							res.status(200).send('Cadastrado com sucesso').end();
+							res.status(200).send('Cadastrado com sucesso');
 						});
 					}
 				});
@@ -241,8 +241,11 @@ router.put('/atualizarEmpresa', function (req, res) {
 		}
 
 		var sql = '';
+		var updateExecs = 0;
 
 		if (req.body.senha != '' && req.body.senha != null && typeof req.body.senha != 'undefined'){
+			updateExecs++;
+
 			sql = `
 					UPDATE tb_usuario
 					   SET senha = md5('${req.body.senha}')
@@ -266,6 +269,8 @@ router.put('/atualizarEmpresa', function (req, res) {
 			`;
 
 		if (req.body.id_tel != null){
+			updateExecs++;
+
 			sql += `
 					UPDATE tb_telefone
 						SET telefone = '${req.body.telefone}'
@@ -274,7 +279,9 @@ router.put('/atualizarEmpresa', function (req, res) {
 					RETURNING id_tel;
 				`;
 		}
-		else {
+		else if (req.body.telefone && req.body.telefone != null && req.body.telefone.trim() != ''){
+			updateExecs++;
+
 			sql += `
 					INSERT INTO tb_telefone (id_empresa, telefone)
 					VALUES (${req.body.id_empresa}, '${req.body.telefone}')
@@ -291,7 +298,10 @@ router.put('/atualizarEmpresa', function (req, res) {
 				return;
 			} 
 
-			res.json(result[2].rows[0].id_tel);
+			if (result[updateExecs])
+				res.json(result[updateExecs].rows[0].id_tel);
+			else 
+				res.json(null);
 		});
 	});
 });

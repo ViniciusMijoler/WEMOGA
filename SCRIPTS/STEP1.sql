@@ -1,11 +1,12 @@
-﻿CREATE DATABASE "TESTE_WEMOGA"
-ENCODING 'WIN1252'
-TEMPLATE = template0
-CONNECTION LIMIT -1;
+----------- Depende do local de hospedagem -----------
+-- CREATE DATABASE "TESTE_WEMOGA"
+-- ENCODING 'WIN1252'
+-- TEMPLATE = template0
+-- CONNECTION LIMIT -1;
 
 CREATE TABLE tb_usuario(
 	id_usuario	SERIAL,
-	usuario		VARCHAR(20) CONSTRAINT u_nn_usuario_usuario UNIQUE NOT NULL,
+	usuario		VARCHAR(20) CONSTRAINT u_nn_usuario_id_usuario UNIQUE NOT NULL,
 	senha		VARCHAR(32) CONSTRAINT nn_usuario_senha NOT NULL,
 	status		INTEGER NOT NULL DEFAULT 1,
 	CONSTRAINT pk_tb_usuario PRIMARY KEY (id_usuario)
@@ -13,7 +14,7 @@ CREATE TABLE tb_usuario(
 
 CREATE TABLE tb_empresa(
 	id		SERIAL,
-	id_usuario	INTEGER CONSTRAINT u_nn_usuario_usuario UNIQUE NOT NULL,
+	id_usuario	INTEGER CONSTRAINT u_nn_empresa_id_usuario UNIQUE NOT NULL,
 	nome		VARCHAR(200),
 	cep		VARCHAR(8),
 	logradouro	VARCHAR(60),
@@ -30,7 +31,7 @@ CREATE TABLE tb_empresa(
 
 CREATE TABLE tb_telefone(
 	id_tel		SERIAL,
-	id_empresa	INTEGER,	
+	id_empresa	INTEGER CONSTRAINT nn_telefone_id_empresa NOT NULL,	
 	telefone	VARCHAR(16), -- 04116991386692
 	status		INTEGER NOT NULL DEFAULT 1,
 	CONSTRAINT pk_tb_telefone PRIMARY KEY (id_tel),
@@ -40,7 +41,7 @@ CREATE TABLE tb_telefone(
 
 CREATE TABLE tb_cargo(
 	id_cargo	SERIAL,
-	nome_cargo	VARCHAR(200),
+	nome_cargo	VARCHAR(200) CONSTRAINT nn_cargo_nome_cargo NOT NULL,
 	status		INTEGER NOT NULL DEFAULT 1,
 	CONSTRAINT pk_tb_cargo PRIMARY KEY (id_cargo)
 );
@@ -51,8 +52,8 @@ VALUES ('Programador'),('Designer'),('Administração');
 CREATE TABLE tb_funcionario(
 	id_func		SERIAL,
 	id_empresa	INTEGER,
-	nome_func	VARCHAR(200),
-	id_cargo	INTEGER,
+	nome_func	VARCHAR(200) CONSTRAINT nn_funcionario_nome_func NOT NULL,
+	id_cargo	INTEGER CONSTRAINT nn_funcionario_id_cargo NOT NULL,
 	salario		NUMERIC(10,2),
 	status		INTEGER NOT NULL DEFAULT 1,
 	CONSTRAINT pk_tb_funcionario PRIMARY KEY (id_func),

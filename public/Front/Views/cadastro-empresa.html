@@ -4,7 +4,7 @@
 		<meta charset="utf-8"/>
   		<meta http-equiv="X-UA-Compatible" content="IE=edge">
   		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+		<base href="/cadastro-empresa">
 		<title> Projects </title>
 
 		<!-- Bootstrap core CSS -->
@@ -15,8 +15,8 @@
 		<link href="./vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 		<link href="./Front/css/mva-cadastro.css" rel="stylesheet">		
 
-		<link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+		<link href='./Front/css/familyOswald.css' rel='stylesheet' type="text/css">
+		<link href='./Front/css/familyEBGaramond.css' rel='stylesheet' type="text/css">
 		
 		<!-- Angular -->
 		<script src="./vendor/angular/angular.min.js"></script>
@@ -32,12 +32,12 @@
 		</div>
 		<div class="container container-center" >
 			<div class="container">				
-				<form name="formCadastro" via-cep-form>
+				<form name="formCadastro" via-cep-form ng-keydown="notSubmit($event);">
 					<h1>Cadastre-se como empresa</h1>
 					<div class="row">
 						<div class="col-md-3">
 							<label class="form-control-label"> Nome de usuário<span class="color-red">*</span>: </label>
-							<input type="text" class="form-control" ng-model="empresa.usuario" maxlength="30" required/>
+							<input type="text" class="form-control" ng-model="empresa.usuario" maxlength="20" required/>
 						</div>		
 						<div class="col-md-2">
 							<label class="form-control-label"> Senha<span class="color-red">*</span>: </label>
@@ -63,7 +63,7 @@
 						</div>
 						<div class="col-md-2">
 							<label class="form-control-label"> Cidade: </label>
-							<input type="text" class="form-control" ng-model="empresa.cidade" maxlength="60" via-cep="localidade"/>
+							<input type="text" class="form-control" ng-model="empresa.cidade" maxlength="50" via-cep="localidade"/>
 						</div>
 						<div class="col-md-3">
 							<label class="form-control-label"> Bairro: </label>

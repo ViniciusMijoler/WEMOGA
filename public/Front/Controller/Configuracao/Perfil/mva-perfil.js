@@ -39,10 +39,18 @@ app.controller('perfilController', ['$scope', '$rootScope','$http', '$timeout', 
             if (response.data){
                 $scope.empresa.id_tel = parseInt(response.data);
                 alertas.alertSucess('Perfil salvo.');
+                $scope.empresa.senha = '';
             }
             else {
                 alertas.alertDanger('Erro ao salvar o perfil.');
             }
         })
+    }
+    
+    $scope.notSubmit = function(event){
+        if (event.keyCode == 13){
+            event.returnValue=false;
+            event.cancel = true;
+        }
     }
 }]);
